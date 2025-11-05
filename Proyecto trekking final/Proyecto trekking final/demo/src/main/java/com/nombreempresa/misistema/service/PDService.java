@@ -6,6 +6,7 @@ import java.util.*;
 @Service
 public class PDService {
 
+
     public static class ResultadoPD {
         private int nodosVisitados;
         private int distanciaTotal;
@@ -22,57 +23,111 @@ public class PDService {
         public List<Integer> getCamino() { return camino; }
     }
 
+    private int[][] grafo;
+    private int[][] dp; // La tabla de Programación Dinámica
+    private int[][] predecesor;
+    private int numVertices;
+    private static final int INF = Integer.MAX_VALUE;
+
     public ResultadoPD ejecutarPD(int numVertices, List<int[]> edges, int startVertex, int limiteDistancia) {
-        Map<Integer, List<int[]>> grafo = new HashMap<>();
-        for (int[] e : edges) {
-            grafo.computeIfAbsent(e[0], k -> new ArrayList<>()).add(new int[]{e[1], e[2]});
-            grafo.computeIfAbsent(e[1], k -> new ArrayList<>()).add(new int[]{e[0], e[2]});
+        this.numVertices = numVertices;
+
+        construirGrafo(numVertices, edges);
+
+        int numMasks = 1 << numVertices; // 2^n
+        this.dp = new int[numMasks][numVertices];
+        this.predecesor = new int[numMasks][numVertices];
+
+        for (int[] row : dp) Arrays.fill(row, INF);
+        for (int[] row : predecesor) Arrays.fill(row, -1);
+
+        // Caso Base: Empezar en startVertex
+        int startMask = 1 << startVertex;
+        dp[startMask][startVertex] = 0;
+
+        // Llenar la tabla
+        for (int mask = 1; mask < numMasks; mask++) {
+            for (int u = 0; u < numVertices; u++) {
+
+                if ((mask & (1 << u)) != 0 && dp[mask][u] != INF) {
+                    for (int v = 0; v < numVertices; v++) {
+                        if ((mask & (1 << v)) == 0 && grafo[u][v] > 0) {
+
+                            int nuevaMask = mask | (1 << v);
+                            int nuevaDistancia = dp[mask][u] + grafo[u][v];
+
+
+                            if (nuevaDistancia < dp[nuevaMask][v]) {
+                                dp[nuevaMask][v] = nuevaDistancia;
+                                predecesor[nuevaMask][v] = u;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        boolean[] visitado = new boolean[numVertices];
-        List<Integer> caminoActual = new ArrayList<>();
-        List<Integer> mejorCamino = new ArrayList<>();
-        int[] distanciaUsada = new int[]{0};
-
-        dfsPD(startVertex, limiteDistancia, grafo, visitado, caminoActual, 0, mejorCamino, distanciaUsada);
-
-        return new ResultadoPD(mejorCamino.size(), distanciaUsada[0], mejorCamino);
+        // Encontrar la mejor solución en la tabla
+        return buscarMejorResultado(limiteDistancia);
     }
 
-    private void dfsPD(int nodo, int distanciaRestante, Map<Integer, List<int[]>> grafo,
-                       boolean[] visitado, List<Integer> caminoActual,
-                       int distanciaAcumulada, List<Integer> mejorCamino,
-                       int[] distanciaUsada) {
+    private void construirGrafo(int numVertices, List<int[]> edges) {
+        this.grafo = new int[numVertices][numVertices];
+        for (int[] e : edges) {
+            grafo[e[0]][e[1]] = e[2];
+            grafo[e[1]][e[0]] = e[2];
+        }
+    }
 
-        visitado[nodo] = true;
-        caminoActual.add(nodo);
+    private ResultadoPD buscarMejorResultado(int limiteDistancia) {
+        int mejorCantidadNodos = 0;
+        int mejorMask = -1;
+        int ultimoNodo = -1;
+        int mejorDistancia = INF;
 
-        boolean sePuedeExtender = false;
-        for (int[] vecino : grafo.getOrDefault(nodo, Collections.emptyList())) {
-            int next = vecino[0];
-            int peso = vecino[1];
-            if (!visitado[next] && distanciaRestante >= peso) {
-                sePuedeExtender = true;
-                dfsPD(next, distanciaRestante - peso, grafo, visitado,
-                        caminoActual, distanciaAcumulada + peso, mejorCamino, distanciaUsada);
+        // Recorremos toda la tabla 'dp'
+        for (int mask = 1; mask < (1 << numVertices); mask++) {
+            for (int u = 0; u < numVertices; u++) {
+
+
+                if (dp[mask][u] != INF && dp[mask][u] <= limiteDistancia) {
+                    int cantidadNodos = Integer.bitCount(mask);
+
+                    if (cantidadNodos > mejorCantidadNodos) {
+                        mejorCantidadNodos = cantidadNodos;
+                        mejorDistancia = dp[mask][u];
+                        mejorMask = mask;
+                        ultimoNodo = u;
+                    }
+
+                    else if (cantidadNodos == mejorCantidadNodos && dp[mask][u] < mejorDistancia) {
+                        mejorDistancia = dp[mask][u];
+                        mejorMask = mask;
+                        ultimoNodo = u;
+                    }
+                }
             }
         }
 
-
-        if (!sePuedeExtender) {
-            if (caminoActual.size() > mejorCamino.size()) {
-                mejorCamino.clear();
-                mejorCamino.addAll(new ArrayList<>(caminoActual));
-                distanciaUsada[0] = distanciaAcumulada;
-            } else if (caminoActual.size() == mejorCamino.size() && distanciaAcumulada < distanciaUsada[0]) {
-                mejorCamino.clear();
-                mejorCamino.addAll(new ArrayList<>(caminoActual));
-                distanciaUsada[0] = distanciaAcumulada;
-            }
+        if (mejorMask == -1) {
+            return new ResultadoPD(0, 0, new ArrayList<>());
         }
 
-        // Backtrack
-        visitado[nodo] = false;
-        caminoActual.remove(caminoActual.size() - 1);
+        // 6. Reconstruir el camino óptimo
+        List<Integer> camino = reconstruirCamino(mejorMask, ultimoNodo);
+        return new ResultadoPD(mejorCantidadNodos, mejorDistancia, camino);
+    }
+
+    private List<Integer> reconstruirCamino(int mask, int u) {
+        LinkedList<Integer> camino = new LinkedList<>();
+        while (u != -1) {
+            camino.addFirst(u);
+            int prevMask = mask ^ (1 << u);
+            int prevU = predecesor[mask][u];
+            u = prevU;
+            mask = prevMask;
+        }
+        return camino;
     }
 }
+

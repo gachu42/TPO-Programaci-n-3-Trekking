@@ -14,7 +14,6 @@ public class Conexion {
 
     private int distancia;
 
-    // Aseguramos que la entidad de destino se mapee a PUNTO
     @TargetNode
     private LugarEntity destino;
 
@@ -25,7 +24,6 @@ public class Conexion {
         this.distancia = distancia;
     }
 
-    // Getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

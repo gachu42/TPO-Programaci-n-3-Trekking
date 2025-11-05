@@ -22,7 +22,6 @@ public class AlgoritmoRequest {
     // PARÁMETRO PARA PROGRAMACIÓN DINÁMICA
     private int limiteDistancia;
 
-    //Getters y setters
     public int getNumVertices() { return numVertices; }
     public void setNumVertices(int numVertices) { this.numVertices = numVertices; }
 

@@ -6,20 +6,20 @@ import java.util.List;
 
 public class AlgoritmoRequest {
 
-    // --- PARÁMETROS BÁSICOS DEL GRAFO ---
+    // PARÁMETROS BÁSICOS DEL GRAFO
     private int numVertices;
     private List<int[]> edges; // Lista de aristas: [origen, destino, peso]
     private int startVertex;
     private int endVertex;
 
-    // --- PARÁMETROS ESPECÍFICOS DE BACKTRACKING ---
+    // PARÁMETROS ESPECÍFICOS DE BACKTRACKING
     private List<Integer> nodosObligatorios;
     private List<Integer> nodosEvitados;
 
     // --- PARÁMETRO PARA GREEDY ---
     private int limiteCosto;
 
-    // --- PARÁMETRO PARA PROGRAMACIÓN DINÁMICA ---
+    // PARÁMETRO PARA PROGRAMACIÓN DINÁMICA
     private int limiteDistancia;
 
     //Getters y setters

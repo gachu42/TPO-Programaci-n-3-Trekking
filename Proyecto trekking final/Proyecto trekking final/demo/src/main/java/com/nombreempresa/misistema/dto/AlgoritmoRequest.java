@@ -12,7 +12,7 @@ public class AlgoritmoRequest {
     private int startVertex;
     private int endVertex;
 
-    // PARÁMETROS ESPECÍFICOS DE BACKTRACKING
+    // PARÁMETROS ESPECÍFICOS DEl BACKTRACKING
     private List<Integer> nodosObligatorios;
     private List<Integer> nodosEvitados;
 

@@ -1,0 +1,253 @@
+:root {
+    --color-primary: #27ae60;
+    --color-secondary: #f39c12;
+    --color-text-dark: #2c3e50;
+    --color-background-light: #ecf0f1;
+    --color-white: #ffffff;
+}
+
+/* Estilos Generales y del Cuerpo */
+
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* FONDO ÚNICO: Visible en todo momento */
+    background-image: url('https://vastphotos.com/files/uploads/photos/10783/pathway-in-forest-l.jpg?v=20250328142304');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 20px;
+    margin: 0;
+    color: var(--color-text-dark);
+    transition: none; /* Ya no necesitamos transición de fondo */
+}
+
+
+/* Pantalla de Inicio (Landing Page) */
+#pantalla-inicio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--color-white);
+    text-align: center;
+
+
+    transition: opacity 1.5s ease-out;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    /* Overlay semi-transparente que se desvanece con el contenido */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#pantalla-inicio h1 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 4.5rem; /* El tamaño grande para la pantalla de inicio */
+    letter-spacing: 5px;
+    margin-bottom: 0.5rem;
+    color: var(--color-white);
+    text-shadow: 0 0 15px rgba(0, 0, 0, 1), 0 0 5px rgba(0, 0, 0, 0.8);
+    background-color: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+#pantalla-inicio p {
+    font-size: 1.6rem;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+    color: var(--color-white);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 1);
+    background-color: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+#pantalla-inicio button {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    width: auto;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: 3px solid transparent;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s, border-color 0.3s;
+}
+
+#pantalla-inicio button:hover {
+    background-color: #2ecc71;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.5);
+    border: 3px solid var(--color-white);
+}
+
+/* Título (Contenido principal - Mapa) */
+h1 {
+    /* Mantiene el estilo de Archivo Black y color blanco para el mapa */
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+
+    color: var(--color-white);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 1), 0 0 5px rgba(0, 0, 0, 0.8);
+
+    background-color: transparent;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: none;
+}
+
+/* Contenedor Principal (Mapa y Panel) */
+.main-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.map-container {
+    flex: 3;
+    height: 700px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    /* Fondo del mapa semi-transparente para que se vea el fondo del body */
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Panel Lateral (Controles) */
+.control-panel {
+    flex: 1;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.control-panel h2 {
+    color: var(--color-text-dark);
+    font-size: 1.5rem;
+    font-family: 'Archivo Black', sans-serif;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--color-secondary);
+    padding-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.control-panel label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    font-size: 0.95rem;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+select:focus {
+    border-color: var(--color-secondary);
+    outline: none;
+}
+
+/* Estilo para el botón general (que estará en el formulario dinámico) */
+button {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #e67e22;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Área de resultados */
+.resultado-area {
+    margin-top: 25px;
+    padding: 15px;
+    border: 1px solid var(--color-secondary);
+    background-color: var(--color-white);
+    border-radius: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(243, 156, 18, 0.2);
+}
+
+#resultado-area h3 {
+    border-bottom: 2px solid var(--color-secondary);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+}
+
+
+#resultado-texto {
+    white-space: pre-wrap;
+    font-size: 0.9em;
+    color: var(--color-text-dark);
+    background-color: #fcfcfc;
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid var(--color-background-light);
+    overflow-x: auto;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+
+.promotional-text-container {
+    max-width: 1400px;
+    margin: 0px auto 20px auto;
+    padding: 15px 30px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    border-left: 5px solid var(--color-secondary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.promotional-text-container p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-text-dark);
+    margin: 0;
+    font-style: italic;
+}
+
+/* Animaciones y Utilidades */
+.fade {
+    opacity: 0;
+    transition: opacity 1s ease;
+
+
+}

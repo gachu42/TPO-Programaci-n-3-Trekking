@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trekking Bosque San Cayetano: Planifica tu Aventura</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+
+<div id="pantalla-inicio">
+    <h1>BOSQUE SAN CAYETANO</h1>
+    <p>Explora cada sendero, tu viaje comienza acá.</p>
+    <button id="btn-iniciar">EMPEZAR A EXPLORAR</button>
+</div>
+
+<div id="contenido-principal" class="fade" style="display: none;">
+
+    <h1>MAPA DE RUTAS DEL BOSQUE</h1>
+
+    <div class="promotional-text-container">
+        <p>
+            Explora lo Desconocido: El Bosque San Cayetano es el destino ideal para los amantes del trekking que buscan un desafío real. Con senderos y vistas panorámicas inigualables, nuestro bosque te ofrece una conexión profunda con la naturaleza. ¡Usa nuestra herramienta de planificación para descubrir tu próxima gran aventura!
+        </p>
+    </div>
+
+    <div class="main-container">
+
+        <div id="network-map" class="map-container">
+        </div>
+
+        <div class="control-panel">
+
+            <h2>Planifica tu Trek</h2>
+
+            <select id="algoritmo-selector">
+                <option value="">Selecciona una funcionalidad...</option>
+                <option value="dijkstra">1. Ruta Más Corta (Dijkstra)</option>
+                <option value="bfs">2. Menor Cantidad de Tramos (BFS)</option>
+                <option value="dfs">3. Exploración Profunda (DFS)</option>
+                <option value="backtracking">4. Rutas con Restricciones (Backtracking)</option>
+                <option value="branchandbound">5. Ruta Óptima con Restricciones (Branch and Bound)</option>
+                <option value="kruskal">6. Red Troncal Mínima Global (Kruskal)</option>
+                <option value="greedy">7. Aproximación Local (Greedy)</option>
+                <option value="prim">8. Árbol de Expansión Mínima Local (Prim)</option>
+                <option value="pd">9. Explorar Máximo de Lugares (PD)</option>
+            </select>
+
+            <div id="param-form-container">
+            </div>
+
+            <div id="resultado-area" class="resultado-area">
+                <h3>Detalle de la Ruta:</h3>
+                <pre id="resultado-texto">Selecciona un objetivo de ruta y los puntos de inicio/fin para planificar tu trek.</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+
+<script>
+    const btnIniciar = document.getElementById('btn-iniciar');
+    const pantallaInicio = document.getElementById('pantalla-inicio');
+    const contenidoPrincipal = document.getElementById('contenido-principal');
+
+    btnIniciar.addEventListener('click', () => {
+        // Ocultar pantalla de inicio con transición
+        pantallaInicio.style.opacity = 0;
+        setTimeout(() => {
+            pantallaInicio.style.display = 'none';
+            contenidoPrincipal.style.display = 'block';
+
+            // Animación de fade-in
+            setTimeout(() => {
+                contenidoPrincipal.style.opacity = 1;
+
+                // Redibuja el grafo para evitar zoom extraño (network debe estar definido en app.js)
+                if (typeof network !== "undefined") {
+                    network.redraw();
+                    network.fit();
+                }
+            }, 50);
+        }, 500);
+    });
+</script>
+
+</body>
+</html>

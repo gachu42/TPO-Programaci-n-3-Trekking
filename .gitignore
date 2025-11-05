@@ -1,0 +1,12 @@
+# Archivos de IntelliJ
+.idea/
+out/
+
+# Archivos de Maven
+target/
+
+# Archivos de compilación de Java
+*.class
+
+# Archivos de Log
+*.log

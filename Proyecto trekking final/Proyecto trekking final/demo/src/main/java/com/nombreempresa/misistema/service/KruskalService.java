@@ -52,7 +52,6 @@ public class KruskalService {
         return resultadoFinal;
     }
 
-    // Clases auxiliares internas (Arista y UnionFind) sin cambios.
     private static class Arista implements Comparable<Arista> {
         int origen, destino, peso;
         public Arista(int o, int d, int p) { origen = o; destino = d; peso = p; }

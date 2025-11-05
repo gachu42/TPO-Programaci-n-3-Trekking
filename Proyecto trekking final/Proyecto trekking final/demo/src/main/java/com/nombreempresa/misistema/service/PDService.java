@@ -24,7 +24,7 @@ public class PDService {
     }
 
     private int[][] grafo;
-    private int[][] dp; // La tabla de Programación Dinámica
+    private int[][] dp;
     private int[][] predecesor;
     private int numVertices;
     private static final int INF = Integer.MAX_VALUE;
@@ -34,7 +34,7 @@ public class PDService {
 
         construirGrafo(numVertices, edges);
 
-        int numMasks = 1 << numVertices; // 2^n
+        int numMasks = 1 << numVertices;
         this.dp = new int[numMasks][numVertices];
         this.predecesor = new int[numMasks][numVertices];
 
@@ -113,7 +113,7 @@ public class PDService {
             return new ResultadoPD(0, 0, new ArrayList<>());
         }
 
-        // 6. Reconstruir el camino óptimo
+        // Reconstruir el camino óptimo
         List<Integer> camino = reconstruirCamino(mejorMask, ultimoNodo);
         return new ResultadoPD(mejorCantidadNodos, mejorDistancia, camino);
     }

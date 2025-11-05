@@ -76,7 +76,7 @@ public class BacktrackingService {
             }
         }
 
-        // Backtrack
+
         visitado[actual] = false;
         caminoActual.remove(caminoActual.size() - 1);
     }

@@ -58,10 +58,10 @@ public class BranchAndBoundService {
 
             // 1. Poda (Branch)
             if (current.cost >= bestCost) {
-                continue; // Poda: El costo actual es peor o igual al mejor encontrado
+                continue;
             }
             if (nodosEvitados != null && nodosEvitados.contains(u) && u != start) {
-                continue; // Poda: No se puede pasar por un nodo evitado
+                continue;
             }
 
             // 2. Condición de Éxito
@@ -95,7 +95,6 @@ public class BranchAndBoundService {
                     continue;
                 }
 
-                // Poda con el mejor Bound (se mantiene)
                 if (newCost < bestCost) {
                     List<Integer> newPath = new ArrayList<>(current.path);
                     newPath.add(v);
